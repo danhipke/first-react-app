@@ -1,20 +1,24 @@
 import React from 'react'
-import DashboardItem from '../components/DashboardItem'
 
 export const Dashboard = (props) => {
   const listJSX = props.dashboard.dashboardItems.map((item, i) => {
-    let selected = false
+    let itemJSX
     if (props.editedItemIndex === i) {
-      selected = true
+      itemJSX = <p><b><u>{item.label}</u></b></p>
     } else {
-      selected = false
+      itemJSX = <p>{item.label}</p>
     }
-    return <DashboardItem
+    return <h4
       key={i}
-      index={i}
-      itemOnEdit={props.itemOnEdit}
-      label={item.label}
-      selected={selected} />
+      id={i}
+      draggable='true'
+      onDragOver={props.handleOnDragOver}
+      onDragStart={props.handleOnDragStart}
+      onDrop={props.handleOnDrop}
+      onClick={props.itemOnEdit}
+      style={{ cursor: 'pointer' }}>
+      {itemJSX}
+    </h4>
   })
 
   return (
