@@ -16,10 +16,20 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
-  dashboard : state.dashboard
+  dashboard : state.dashboard,
+  session: state.session
 })
 
 class DashboardContainer extends React.Component {
+  static propTypes = {
+    dashboardVisitsIncrement: React.PropTypes.func.isRequired,
+    dashboardAddItem: React.PropTypes.func.isRequired,
+    dashboardEditItem: React.PropTypes.func.isRequired,
+    dashboard: React.PropTypes.object.isRequired,
+    dashboardReorderItems: React.PropTypes.func.isRequired,
+    session: React.PropTypes.object.isRequired
+  }
+
   constructor (props) {
     super(props)
 
@@ -95,6 +105,10 @@ class DashboardContainer extends React.Component {
   }
 
   render () {
+    if (this.props.session.isNotLoggedIn) {
+      return <h4>Please login in order to access your dashboard</h4>
+    }
+
     return (
       <Dashboard {...this.props}
         handleOnDragOver={this.handleOnDragOver}
@@ -107,14 +121,6 @@ class DashboardContainer extends React.Component {
         onSubmit={this.onSubmit} />
     )
   }
-}
-
-DashboardContainer.propTypes = {
-  dashboardVisitsIncrement: React.PropTypes.func.isRequired,
-  dashboardAddItem: React.PropTypes.func.isRequired,
-  dashboardEditItem: React.PropTypes.func.isRequired,
-  dashboard: React.PropTypes.object.isRequired,
-  dashboardReorderItems: React.PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer)
